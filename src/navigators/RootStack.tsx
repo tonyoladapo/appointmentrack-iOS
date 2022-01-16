@@ -8,6 +8,7 @@ import auth from '@react-native-firebase/auth';
 import Setup from '../screens/rootStack/Setup';
 import Main from '../screens/rootStack/Main';
 import useAuth from '../hooks/useAuth';
+import AppiontmentDetails from '../screens/rootStack/AppiontmentDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -25,10 +26,18 @@ const RootStack = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {!user ? (
-          <Stack.Screen name="Setup" component={Setup} />
+          <Stack.Screen
+            name="Setup"
+            component={Setup}
+            options={{ headerShown: false }}
+          />
         ) : (
           <>
             <Stack.Screen name="Main" component={Main} />
+            <Stack.Screen
+              name="AppointmentDetails"
+              component={AppiontmentDetails}
+            />
           </>
         )}
       </Stack.Navigator>
