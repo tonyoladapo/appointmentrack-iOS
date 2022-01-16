@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/navigation';
+import { useSelector } from 'react-redux';
+import { ReducerTypes } from '../types/main';
+import auth from '@react-native-firebase/auth';
 import Setup from '../screens/rootStack/Setup';
 import Main from '../screens/rootStack/Main';
+import useAuth from '../hooks/useAuth';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
-  const user = null;
+  const { user } = useSelector(({ auth }: ReducerTypes) => auth);
+
+  const { authStateListener } = useAuth();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(authStateListener);
+    return subscriber;
+  }, []);
 
   return (
     <NavigationContainer>
