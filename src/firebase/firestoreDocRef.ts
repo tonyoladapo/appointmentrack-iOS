@@ -9,12 +9,12 @@ export default () => {
   );
 
   const appointmentDocRef = firestore()
-    .collection('userAppointments')
+    .collection('userData')
     .doc(user?.uid)
     .collection('appointments');
 
   const peopleDocRef = firestore()
-    .collection('userAppointments')
+    .collection('userData')
     .doc(user?.uid)
     .collection('people');
 
