@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Setup: undefined;
   Main: undefined;
   AppointmentDetails: any;
+  PersonDetails: any;
 };
 
 export type SetupStackParamList = {

@@ -5,10 +5,11 @@ import { RootStackParamList } from '../types/navigation';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/main';
 import auth from '@react-native-firebase/auth';
+import useAuth from '../hooks/useAuth';
 import Setup from '../screens/rootStack/Setup';
 import Main from '../screens/rootStack/Main';
-import useAuth from '../hooks/useAuth';
 import AppiontmentDetails from '../screens/rootStack/AppiontmentDetails';
+import PersonDetails from '../screens/rootStack/PersonDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -42,6 +43,7 @@ const RootStack = () => {
               name="AppointmentDetails"
               component={AppiontmentDetails}
             />
+            <Stack.Screen name="PersonDetails" component={PersonDetails} />
           </>
         )}
       </Stack.Navigator>
