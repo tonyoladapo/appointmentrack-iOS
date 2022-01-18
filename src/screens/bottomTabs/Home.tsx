@@ -6,10 +6,10 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import useAppointments from '../../hooks/useAppointments';
-import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
+import useAppointments from '../../hooks/useAppointments';
+import auth from '@react-native-firebase/auth';
 
 const Home = () => {
   const { getAppointments, appointments, loading, addAppointment } =
