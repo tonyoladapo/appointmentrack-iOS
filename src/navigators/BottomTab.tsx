@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../types/navigation';
@@ -12,6 +12,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTab = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [activeTab, setActiveTab] = useState<'People' | 'Home'>();
 
   const snapPoints = useMemo(() => ['50%', '80%'], []);
 
@@ -28,7 +29,10 @@ const BottomTab = () => {
           options={{
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => bottomSheetRef.current?.snapToIndex(0)}
+                onPress={() => {
+                  setActiveTab('Home');
+                  bottomSheetRef.current?.snapToIndex(0);
+                }}
                 style={{
                   paddingHorizontal: 16,
                   flex: 1,
@@ -40,7 +44,27 @@ const BottomTab = () => {
             ),
           }}
         />
-        <Tab.Screen name="People" component={People} />
+        <Tab.Screen
+          name="People"
+          component={People}
+          options={{
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  setActiveTab('People');
+                  bottomSheetRef.current?.snapToIndex(0);
+                }}
+                style={{
+                  paddingHorizontal: 16,
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text>Create</Text>
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Tab.Screen name="Calendar" component={Calendar} />
         <Tab.Screen name="More" component={More} />
       </Tab.Navigator>
@@ -51,9 +75,9 @@ const BottomTab = () => {
         snapPoints={snapPoints}
         enablePanDownToClose
         onChange={handleSheetChanges}>
-        <View>
-          <Text>Awesome 🎉</Text>
-        </View>
+        <>
+          {activeTab == 'Home' ? <Text>Home 🎉</Text> : <Text>People 🎉</Text>}
+        </>
       </BottomSheet>
     </>
   );
