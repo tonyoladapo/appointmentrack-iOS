@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPeople } from '../actions/people';
 import firestoreDocRef from '../firebase/firestoreDocRef';
 import uuid from 'react-native-uuid';
 
 export default () => {
-  const [people, setPeople] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const { peopleDocRef } = firestoreDocRef();
 
@@ -19,8 +22,8 @@ export default () => {
           data.push(doc.data());
         });
 
-        setPeople(data);
         setLoading(false);
+        dispatch(setPeople(data));
       });
     } catch (error) {
       console.log(error);
@@ -52,5 +55,5 @@ export default () => {
     }
   };
 
-  return { getPeople, addPerson, editPerson, deletePerson, people, loading };
+  return { getPeople, addPerson, editPerson, deletePerson, loading };
 };
