@@ -6,12 +6,15 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { ReducerTypes } from '../../types/main';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import usePeople from '../../hooks/usePeople';
 
 const People = () => {
-  const { getPeople, people, loading, addPerson } = usePeople();
+  const { people } = useSelector(({ people }: ReducerTypes) => people);
+  const { getPeople, loading, addPerson } = usePeople();
 
   useEffect(() => {
     getPeople();
