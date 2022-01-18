@@ -1,14 +1,46 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
+import usePeople from '../../hooks/usePeople';
 
 const People = () => {
+  const { getPeople, people, loading, addPerson } = usePeople();
+
+  useEffect(() => {
+    getPeople();
+  }, []);
+
   return (
-    <View>
-      <Text></Text>
+    <View style={styles.container}>
+      <FlatList
+        data={people}
+        keyExtractor={({ id }, index) => `${index}-${id}`}
+        renderItem={({ item }) => <Item item={item} />}
+      />
     </View>
   );
 };
 
-export default People;
+const Item = ({ item }: any) => {
+  return (
+    <TouchableOpacity
+      style={{ padding: 16, backgroundColor: 'tomato', marginVertical: 2 }}>
+      <Text>{item.name}</Text>
+    </TouchableOpacity>
+  );
+};
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
+export default People;
