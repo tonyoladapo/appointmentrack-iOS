@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../types/navigation';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -17,7 +17,7 @@ const BottomTab = () => {
   const snapPoints = useMemo(() => ['50%', '80%'], []);
 
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
+    // console.log('handleSheetChanges', index);
   }, []);
 
   return (
