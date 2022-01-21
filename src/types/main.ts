@@ -1,9 +1,11 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { PersonTypes, AppointmentTypes } from './appointment';
 
 export interface ReducerTypes {
   auth: AuthReducer;
   pref: PrefReducer;
   people: PeopleReducer;
+  appointment: AppointmentReducer;
 }
 
 interface AuthReducer {
@@ -15,5 +17,9 @@ interface PrefReducer {
 }
 
 interface PeopleReducer {
-  people: any[];
+  people: PersonTypes[];
+}
+
+interface AppointmentReducer {
+  appointments: AppointmentTypes[];
 }

@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import authReducer from './reducers/auth';
 import peopleReducer from './reducers/people';
 import prefReducer from './reducers/pref';
+import appointmentReducer from './reducers/appointment';
 
 const persistConfig = {
   key: 'root',
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   auth: authReducer,
   pref: prefReducer,
   people: peopleReducer,
+  appointment: appointmentReducer,
 });
 
 const persisted_reducers = persistReducer(persistConfig, reducers);

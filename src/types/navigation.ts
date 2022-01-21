@@ -1,11 +1,16 @@
+import { AppointmentTypes, PersonTypes } from './appointment';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Setup: undefined;
   Main: undefined;
-  AppointmentDetails: any;
-  PersonDetails: any;
+  AppointmentDetails: {
+    item: AppointmentTypes;
+  };
+  PersonDetails: {
+    item: PersonTypes;
+  };
 };
 
 export type SetupStackParamList = {
