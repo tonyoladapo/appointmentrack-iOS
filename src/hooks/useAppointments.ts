@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppointmentTypes } from '../types/appointment';
+import { setAppointments } from '../actions/appointment';
 import firestoreDocRef from '../firebase/firestoreDocRef';
 import uuid from 'react-native-uuid';
 
 export default () => {
-  const [appointments, setAppointments] = useState<any[]>([]);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   const { appointmentDocRef } = firestoreDocRef();
@@ -13,13 +16,13 @@ export default () => {
       appointmentDocRef.onSnapshot(querySnapshot => {
         if (!querySnapshot) return;
 
-        const data: any[] = [];
+        const data: AppointmentTypes[] = [];
 
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc: any) => {
           data.push(doc.data());
         });
 
-        setAppointments(data);
+        dispatch(setAppointments(data));
         setLoading(false);
       });
     } catch (error) {
@@ -27,8 +30,7 @@ export default () => {
     }
   };
 
-  //TODO:Change appointment type
-  const addAppointment = async (appointment: any) => {
+  const addAppointment = async (appointment: AppointmentTypes) => {
     try {
       const id = uuid.v4().toString();
       await appointmentDocRef.doc(id).set({ ...appointment, id });
@@ -37,8 +39,7 @@ export default () => {
     }
   };
 
-  //TODO:Change appointment type
-  const editAppointment = async (appointment: any) => {
+  const editAppointment = async (appointment: AppointmentTypes) => {
     try {
       await appointmentDocRef.doc(appointment.id).update(appointment);
     } catch (error) {
@@ -59,7 +60,6 @@ export default () => {
     editAppointment,
     deleteAppointment,
     getAppointments,
-    appointments,
     loading,
   };
 };
