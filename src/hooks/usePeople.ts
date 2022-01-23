@@ -1,3 +1,4 @@
+import { PersonTypes } from './../types/appointment';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPeople } from '../actions/people';
@@ -16,9 +17,9 @@ export default () => {
       peopleDocRef.onSnapshot(querySnapshot => {
         if (!querySnapshot) return;
 
-        const data: any[] = [];
+        const data: PersonTypes[] = [];
 
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc: any) => {
           data.push(doc.data());
         });
 
