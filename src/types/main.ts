@@ -22,4 +22,5 @@ interface PeopleReducer {
 
 interface AppointmentReducer {
   appointments: AppointmentTypes[];
+  pickedPerson: PersonTypes | null;
 }
