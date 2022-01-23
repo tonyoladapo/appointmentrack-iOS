@@ -9,7 +9,7 @@ export type RootStackParamList = {
     item: AppointmentTypes;
   };
   PersonDetails: {
-    item: PersonTypes;
+    details: PersonTypes;
   };
   PersonPicker: undefined;
 };
