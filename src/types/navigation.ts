@@ -11,6 +11,7 @@ export type RootStackParamList = {
   PersonDetails: {
     item: PersonTypes;
   };
+  PersonPicker: undefined;
 };
 
 export type SetupStackParamList = {

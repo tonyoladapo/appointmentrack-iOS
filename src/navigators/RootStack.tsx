@@ -10,6 +10,7 @@ import Setup from '../screens/rootStack/Setup';
 import Main from '../screens/rootStack/Main';
 import AppiontmentDetails from '../screens/rootStack/AppiontmentDetails';
 import PersonDetails from '../screens/rootStack/PersonDetails';
+import PersonPicker from '../screens/rootStack/PersonPicker';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -44,6 +45,7 @@ const RootStack = () => {
               component={AppiontmentDetails}
             />
             <Stack.Screen name="PersonDetails" component={PersonDetails} />
+            <Stack.Screen name="PersonPicker" component={PersonPicker} />
           </>
         )}
       </Stack.Navigator>
