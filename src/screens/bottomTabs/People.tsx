@@ -11,6 +11,7 @@ import { ReducerTypes } from '../../types/main';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import usePeople from '../../hooks/usePeople';
+import { PersonTypes } from '../../types/appointment';
 
 const People = () => {
   const { people } = useSelector(({ people }: ReducerTypes) => people);
@@ -31,14 +32,14 @@ const People = () => {
   );
 };
 
-const Item = ({ item }: any) => {
+const Item = ({ item }: { item: PersonTypes }) => {
   const { navigate } = useNavigation<RootNavigationProp>();
 
   return (
     <TouchableOpacity
       onPress={() => navigate('PersonDetails', { details: item })}
       style={{ padding: 16, backgroundColor: 'tomato', marginVertical: 2 }}>
-      <Text>{item.name}</Text>
+      <Text>{item.firstName}</Text>
     </TouchableOpacity>
   );
 };
