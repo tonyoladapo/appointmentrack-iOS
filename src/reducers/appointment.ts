@@ -1,5 +1,6 @@
 const initial_state = {
   appointments: [],
+  pickedPerson: null,
 };
 
 interface ActionTypes {
@@ -14,6 +15,9 @@ const appointmentReducer = (
   switch (type) {
     case 'SET_APPOINTMENTS':
       return { ...state, appointments: payload };
+
+    case 'SET_PICKED_PERSON':
+      return { ...state, pickedPerson: payload };
 
     default:
       return state;
