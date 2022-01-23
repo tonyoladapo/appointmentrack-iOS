@@ -20,7 +20,9 @@ export type SetupStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Home: undefined;
+  Home: {
+    pickedPerson?: PersonTypes;
+  };
   People: undefined;
   More: undefined;
   Calendar: undefined;
