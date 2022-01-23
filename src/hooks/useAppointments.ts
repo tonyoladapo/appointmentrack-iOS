@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { AppointmentTypes } from '../types/appointment';
 import { setAppointments } from '../actions/appointment';
 import firestoreDocRef from '../firebase/firestoreDocRef';
-import uuid from 'react-native-uuid';
 
 export default () => {
   const dispatch = useDispatch();
@@ -32,7 +31,7 @@ export default () => {
 
   const addAppointment = async (appointment: AppointmentTypes) => {
     try {
-      const id = uuid.v4().toString();
+      const id = appointment.id;
       await appointmentDocRef.doc(id).set({ ...appointment, id });
     } catch (error) {
       console.log(error);

@@ -7,6 +7,7 @@ import Calendar from '../screens/bottomTabs/Calendar';
 import Home from '../screens/bottomTabs/Home';
 import More from '../screens/bottomTabs/More';
 import People from '../screens/bottomTabs/People';
+import CreateAppointment from '../components/bottomsheets/CreateAppointment';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -76,7 +77,11 @@ const BottomTab = () => {
         enablePanDownToClose
         onChange={handleSheetChanges}>
         <>
-          {activeTab == 'Home' ? <Text>Home 🎉</Text> : <Text>People 🎉</Text>}
+          {activeTab == 'Home' ? (
+            <CreateAppointment bottomSheetRef={bottomSheetRef} />
+          ) : (
+            <Text>People 🎉</Text>
+          )}
         </>
       </BottomSheet>
     </>
