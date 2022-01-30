@@ -11,6 +11,7 @@ import { ReducerTypes } from '../../types/main';
 import { useNavigation } from '@react-navigation/native';
 import { setPickedPerson } from '../../actions/appointment';
 import BottomSheet from '@gorhom/bottom-sheet';
+import CreatePerson from '../../components/bottomsheets/CreatePersonBottomSheet';
 
 const PersonPicker = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -21,7 +22,6 @@ const PersonPicker = () => {
   const { goBack } = useNavigation();
 
   const snapPoints = useMemo(() => ['50%', '90%'], []);
-
   const handleSheetChanges = useCallback((index: number) => {
     // console.log('handleSheetChanges', index);
   }, []);
@@ -59,7 +59,7 @@ const PersonPicker = () => {
         snapPoints={snapPoints}
         enablePanDownToClose
         onChange={handleSheetChanges}>
-        <Text>People 🎉</Text>
+        <CreatePerson bottomSheetRef={bottomSheetRef} fromPicker={true} />
       </BottomSheet>
     </>
   );

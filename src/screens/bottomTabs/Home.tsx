@@ -13,15 +13,18 @@ import { ReducerTypes } from '../../types/main';
 import { AppointmentTypes } from '../../types/appointment';
 import useAppointments from '../../hooks/useAppointments';
 import auth from '@react-native-firebase/auth';
+import usePeople from '../../hooks/usePeople';
 
 const Home = () => {
   const { getAppointments, loading, addAppointment } = useAppointments();
+  const { getPeople } = usePeople();
   const { appointments } = useSelector(
     ({ appointment }: ReducerTypes) => appointment,
   );
 
   useEffect(() => {
     getAppointments();
+    getPeople();
   }, []);
 
   return (

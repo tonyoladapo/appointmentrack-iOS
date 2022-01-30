@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../types/navigation';
@@ -7,19 +7,14 @@ import Calendar from '../screens/bottomTabs/Calendar';
 import Home from '../screens/bottomTabs/Home';
 import More from '../screens/bottomTabs/More';
 import People from '../screens/bottomTabs/People';
-import CreateAppointment from '../components/bottomsheets/CreateAppointment';
+import CreateAppointmentBottomSheet from '../components/bottomsheets/CreateAppointmentBottomSheet';
+import CreatePersonBottomSheet from '../components/bottomsheets/CreatePersonBottomSheet';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTab = () => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const [activeTab, setActiveTab] = useState<'People' | 'Home'>();
-
-  const snapPoints = useMemo(() => ['50%', '80%'], []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    // console.log('handleSheetChanges', index);
-  }, []);
+  const appointmentBottomSheet = useRef<BottomSheet>(null);
+  const personBottomSheet = useRef<BottomSheet>(null);
 
   return (
     <>
@@ -30,10 +25,7 @@ const BottomTab = () => {
           options={{
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => {
-                  setActiveTab('Home');
-                  bottomSheetRef.current?.snapToIndex(0);
-                }}
+                onPress={() => appointmentBottomSheet.current?.snapToIndex(0)}
                 style={{
                   paddingHorizontal: 16,
                   flex: 1,
@@ -51,10 +43,7 @@ const BottomTab = () => {
           options={{
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => {
-                  setActiveTab('People');
-                  bottomSheetRef.current?.snapToIndex(0);
-                }}
+                onPress={() => personBottomSheet.current?.snapToIndex(0)}
                 style={{
                   paddingHorizontal: 16,
                   flex: 1,
@@ -70,20 +59,8 @@ const BottomTab = () => {
         <Tab.Screen name="More" component={More} />
       </Tab.Navigator>
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        onChange={handleSheetChanges}>
-        <>
-          {activeTab == 'Home' ? (
-            <CreateAppointment bottomSheetRef={bottomSheetRef} />
-          ) : (
-            <Text>People 🎉</Text>
-          )}
-        </>
-      </BottomSheet>
+      <CreateAppointmentBottomSheet bottomSheetRef={appointmentBottomSheet} />
+      <CreatePersonBottomSheet bottomSheetRef={personBottomSheet} />
     </>
   );
 };
