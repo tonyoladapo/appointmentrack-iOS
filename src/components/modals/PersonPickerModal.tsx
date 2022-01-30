@@ -4,20 +4,15 @@ import { Modalize } from 'react-native-modalize';
 
 interface Props {
   modalRef: React.RefObject<Modalize>;
-  children: React.ReactNode;
 }
 
-const CreateAppointment = ({ modalRef, children }: Props) => {
+const PersonPickerModal = ({ modalRef }: Props) => {
   const { height } = useWindowDimensions();
-  const modalHeight = height * 0.9;
+  const modalHeight = height * 0.7;
 
-  return (
-    <Modalize ref={modalRef} modalHeight={modalHeight}>
-      {children}
-    </Modalize>
-  );
+  return <Modalize ref={modalRef} modalHeight={modalHeight}></Modalize>;
 };
 
 const styles = StyleSheet.create({});
 
-export default CreateAppointment;
+export default PersonPickerModal;

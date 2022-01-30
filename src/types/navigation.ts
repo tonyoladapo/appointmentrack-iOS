@@ -1,6 +1,8 @@
+import React, { MutableRefObject } from 'react';
 import { AppointmentTypes, PersonTypes } from './appointment';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { Modalize } from 'react-native-modalize';
 
 export type RootStackParamList = {
   Setup: undefined;
@@ -11,7 +13,9 @@ export type RootStackParamList = {
   PersonDetails: {
     details: PersonTypes;
   };
-  PersonPicker: undefined;
+  CreateAppointment: {
+    modalRef?: MutableRefObject<Modalize | null>;
+  };
 };
 
 export type SetupStackParamList = {
