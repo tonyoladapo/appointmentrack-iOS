@@ -1,20 +1,20 @@
 import React, { useRef } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../types/navigation';
-import BottomSheet from '@gorhom/bottom-sheet';
+import { Modalize } from 'react-native-modalize';
 import Calendar from '../screens/bottomTabs/Calendar';
 import Home from '../screens/bottomTabs/Home';
 import More from '../screens/bottomTabs/More';
 import People from '../screens/bottomTabs/People';
-import CreateAppointmentBottomSheet from '../components/bottomsheets/CreateAppointmentBottomSheet';
-import CreatePersonBottomSheet from '../components/bottomsheets/CreatePersonBottomSheet';
+import CreateAppointmentModal from '../components/modals/CreateAppointment';
+import CreatePersonModal from '../components/modals/CreatePerson';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTab = () => {
-  const appointmentBottomSheet = useRef<BottomSheet>(null);
-  const personBottomSheet = useRef<BottomSheet>(null);
+  const appointmentModal = useRef<Modalize>(null);
+  const personModal = useRef<Modalize>(null);
 
   return (
     <>
@@ -25,13 +25,8 @@ const BottomTab = () => {
           options={{
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => appointmentBottomSheet.current?.snapToIndex(0)}
-                style={{
-                  paddingHorizontal: 16,
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                onPress={() => appointmentModal.current?.open()}
+                style={styles.headerBtn}>
                 <Text>Create</Text>
               </TouchableOpacity>
             ),
@@ -43,13 +38,8 @@ const BottomTab = () => {
           options={{
             headerRight: () => (
               <TouchableOpacity
-                onPress={() => personBottomSheet.current?.snapToIndex(0)}
-                style={{
-                  paddingHorizontal: 16,
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                onPress={() => personModal.current?.open()}
+                style={styles.headerBtn}>
                 <Text>Create</Text>
               </TouchableOpacity>
             ),
@@ -59,10 +49,24 @@ const BottomTab = () => {
         <Tab.Screen name="More" component={More} />
       </Tab.Navigator>
 
-      <CreateAppointmentBottomSheet bottomSheetRef={appointmentBottomSheet} />
-      <CreatePersonBottomSheet bottomSheetRef={personBottomSheet} />
+      <CreateAppointmentModal modalRef={appointmentModal}>
+        <Text>Text</Text>
+      </CreateAppointmentModal>
+
+      <CreatePersonModal modalRef={personModal}>
+        <Text>Text</Text>
+      </CreatePersonModal>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  headerBtn: {
+    paddingHorizontal: 16,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default BottomTab;
