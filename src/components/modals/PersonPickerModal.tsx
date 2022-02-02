@@ -29,6 +29,7 @@ const PersonPickerModal = ({ modalRef }: Props) => {
         data: people,
         keyExtractor: ({ id }, index) => `${index}-${id}`,
         renderItem: ({ item }) => <Item person={item} modalRef={modalRef} />,
+        ListHeaderComponent: <AddPerson />,
       }}
     />
   );
@@ -51,6 +52,14 @@ const Item = ({
         modalRef.current?.close();
       }}>
       <Text>{person.firstName}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const AddPerson = () => {
+  return (
+    <TouchableOpacity style={styles.item}>
+      <Text>Add Person</Text>
     </TouchableOpacity>
   );
 };
