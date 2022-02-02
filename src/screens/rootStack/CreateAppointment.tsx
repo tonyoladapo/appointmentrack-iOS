@@ -12,6 +12,7 @@ import { ReducerTypes } from '../../types/main';
 import { setPickedPerson } from '../../actions/appointment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as RNLocalize from 'react-native-localize';
+import ReminderToggle from '../../components/ReminderToggle';
 
 const CreateAppointment = ({
   route: {
@@ -22,8 +23,8 @@ const CreateAppointment = ({
   const [notes, setNotes] = useState('');
   const [isAllDay, setIsAllDay] = useState(false);
   const [date, setDate] = useState<any>(new Date());
-  const [startTime, setStartTime] = useState<any>(new Date());
   const [endTime, setEndTime] = useState<any>(new Date());
+  const [reminderTime, setReminderTime] = useState<any>(undefined);
 
   const { pickedPerson } = useSelector(
     ({ appointment }: ReducerTypes) => appointment,
@@ -34,6 +35,8 @@ const CreateAppointment = ({
   const resetPersonPicker = () => {
     dispatch(setPickedPerson(null));
   };
+
+  console.log(reminderTime);
 
   useEffect(() => {
     return () => resetPersonPicker();
@@ -68,7 +71,7 @@ const CreateAppointment = ({
       )}
 
       <DateTimePicker
-        mode="date"
+        mode="datetime"
         value={date}
         minimumDate={new Date()}
         locale={deviceLocale}
@@ -79,17 +82,8 @@ const CreateAppointment = ({
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text>All day</Text>
-        <Switch value={isAllDay} onValueChange={() => setIsAllDay(!isAllDay)} />
+        <Switch value={isAllDay} onValueChange={setIsAllDay} />
       </View>
-
-      <DateTimePicker
-        mode="time"
-        value={startTime}
-        locale={deviceLocale}
-        onChange={(_: Event, selectedTime: Date | undefined) =>
-          setStartTime(selectedTime)
-        }
-      />
 
       {!isAllDay && (
         <DateTimePicker
@@ -110,6 +104,13 @@ const CreateAppointment = ({
         value={notes}
         placeholderTextColor="#999"
         onChangeText={text => setNotes(text)}
+      />
+
+      <ReminderToggle
+        appointmentDate={date}
+        deviceLocale={deviceLocale}
+        reminderTime={reminderTime}
+        setReminderTime={setReminderTime}
       />
     </View>
   );
