@@ -13,9 +13,7 @@ export type RootStackParamList = {
   PersonDetails: {
     details: PersonTypes;
   };
-  CreateAppointment: {
-    modalRef?: MutableRefObject<Modalize | null>;
-  };
+  CreateAppointmentModal: undefined;
 };
 
 export type SetupStackParamList = {
@@ -26,6 +24,7 @@ export type SetupStackParamList = {
 export type BottomTabParamList = {
   Home: {
     pickedPerson?: PersonTypes;
+    modalRef: MutableRefObject<Modalize | null>;
   };
   People: undefined;
   More: undefined;

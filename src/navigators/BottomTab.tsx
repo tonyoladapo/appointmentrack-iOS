@@ -12,40 +12,35 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTab = () => {
   const { navigate } = useNavigation<RootNavigationProp>();
-
   return (
-    <>
-      <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() => navigate('CreateAppointment')}
-                style={styles.headerBtn}>
-                <Text>Create</Text>
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="People"
-          component={People}
-          options={{
-            headerRight: () => (
-              <TouchableOpacity
-                // onPress={() => personModal.current?.open()}
-                style={styles.headerBtn}>
-                <Text>Create</Text>
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Tab.Screen name="Calendar" component={Calendar} />
-        <Tab.Screen name="More" component={More} />
-      </Tab.Navigator>
-    </>
+    <Tab.Navigator initialRouteName="Home">
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigate('CreateAppointmentModal')}
+              style={styles.headerBtn}>
+              <Text>Create</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="People"
+        component={People}
+        options={{
+          headerRight: () => (
+            <TouchableOpacity style={styles.headerBtn}>
+              <Text>Create</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="More" component={More} />
+    </Tab.Navigator>
   );
 };
 
