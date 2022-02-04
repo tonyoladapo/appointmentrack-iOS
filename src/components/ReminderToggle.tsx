@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Switch } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import CheckBox from '@react-native-community/checkbox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
@@ -12,97 +12,140 @@ interface Props {
 }
 
 const ReminderToggle = ({
-  deviceLocale,
   setReminderTime,
   reminderTime,
   appointmentDate,
 }: Props) => {
-  const [remindMe, setRemindMe] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState<any>(null);
-  const [isCustomTime, setIsCustomTime] = useState(false);
-  const [selected, setSelected] = useState<30 | 60 | 1440 | -1>(30);
-  const [dropdownItems, setDropdownItems] = useState([
-    { label: '30 Mins before', value: 30 },
-    { label: '1 hr before', value: 60 },
-    { label: 'A day before', value: 1440 },
-    { label: 'Custom', value: -1 },
-  ]);
+  const [isReminderOn, setIsReminderOn] = React.useState(false);
+  const [checkboxValue, setCheckboxValue] = React.useState<
+    '30mins' | '1hr' | '1day' | 'custom' | undefined
+  >(undefined);
 
-  useEffect(() => {
-    remindMe && handleTimePicked(selected);
-  }, [appointmentDate]);
-
-  const handleTimePicked = (time: number) => {
-    switch (time) {
-      case 30:
-        setSelected(30);
+  const test = () => {
+    switch (checkboxValue) {
+      case '30mins':
         setReminderTime(
-          moment(appointmentDate).subtract(30, 'minutes').toDate(),
+          moment(appointmentDate).subtract('30', 'minutes').toDate(),
         );
         break;
-      case 60:
-        setSelected(60);
+
+      case '1hr':
         setReminderTime(
-          moment(appointmentDate).subtract(60, 'minutes').toDate(),
+          moment(appointmentDate).subtract('1', 'hours').toDate(),
         );
         break;
-      case 1440:
-        setSelected(1440);
-        setReminderTime(moment(appointmentDate).subtract(1, 'day').toDate());
+
+      case '1day':
+        setReminderTime(moment(appointmentDate).subtract('1', 'days').toDate());
         break;
+
+      case 'custom':
+        setReminderTime(
+          moment(appointmentDate).subtract('30', 'minutes').toDate(),
+        );
+        break;
+
       default:
-        setSelected(-1);
-        setIsCustomTime(true);
+        setReminderTime(undefined);
     }
   };
 
+  useEffect(() => {
+    test();
+  }, [checkboxValue, appointmentDate]);
+
   return (
-    <>
-      <View>
-        <Text>Remind me</Text>
-        <Switch
-          value={remindMe}
-          onValueChange={value => {
-            setRemindMe(_ => {
-              if (value == false) setReminderTime(undefined);
-              else handleTimePicked(30);
-              return value;
-            });
-          }}
-        />
-      </View>
+    <View style={styles.container}>
+      <Text>Remind me</Text>
+      <Switch
+        value={isReminderOn}
+        onValueChange={state => {
+          setIsReminderOn(state);
+          !state ? setCheckboxValue(undefined) : setCheckboxValue('30mins');
+        }}
+      />
 
-      {remindMe && (
+      {isReminderOn && (
         <>
-          <DropDownPicker
-            value={dropdownValue}
-            setValue={setDropdownValue}
-            open={isDropdownOpen}
-            setOpen={setIsDropdownOpen}
-            items={dropdownItems}
-            setItems={setDropdownItems}
-            placeholder="Pick reminder time"
-            onChangeValue={(value: any) => handleTimePicked(value)}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 16,
+              alignItems: 'center',
+            }}>
+            <CheckBox
+              value={checkboxValue === '30mins'}
+              onValueChange={() => setCheckboxValue('30mins')}
+            />
 
-          {isCustomTime && (
+            <Text>30 minutes before</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 16,
+              alignItems: 'center',
+            }}>
+            <CheckBox
+              value={checkboxValue === '1hr'}
+              onValueChange={() => setCheckboxValue('1hr')}
+            />
+
+            <Text>1 hour before</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 16,
+              alignItems: 'center',
+            }}>
+            <CheckBox
+              value={checkboxValue === '1day'}
+              onValueChange={() => setCheckboxValue('1day')}
+            />
+
+            <Text>A day before</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 16,
+              alignItems: 'center',
+            }}>
+            <CheckBox
+              value={checkboxValue === 'custom'}
+              onValueChange={() => setCheckboxValue('custom')}
+            />
+
+            <Text>Custom</Text>
+          </View>
+
+          {checkboxValue === 'custom' && (
             <DateTimePicker
               mode="datetime"
               value={reminderTime}
-              locale={deviceLocale}
-              minimumDate={new Date()}
-              onChange={(_: Event, selectedTime: Date | undefined) =>
-                setReminderTime(selectedTime)
+              onChange={(_: Event, date: Date | undefined) =>
+                setReminderTime(date)
               }
             />
           )}
         </>
       )}
-    </>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default ReminderToggle;
