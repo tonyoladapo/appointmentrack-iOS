@@ -131,6 +131,7 @@ const ReminderToggle = ({
             <DateTimePicker
               mode="datetime"
               value={reminderTime}
+              minimumDate={new Date()}
               onChange={(_: Event, date: Date | undefined) =>
                 setReminderTime(date)
               }
