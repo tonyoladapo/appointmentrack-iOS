@@ -35,6 +35,7 @@ export default () => {
     try {
       const id = uuid.v4().toString();
       await peopleDocRef.doc(id).set({ ...person, id });
+      return id;
     } catch (error) {
       console.log(error);
     }
