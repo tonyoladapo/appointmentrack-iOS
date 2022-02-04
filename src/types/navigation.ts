@@ -31,6 +31,13 @@ export type BottomTabParamList = {
   Calendar: undefined;
 };
 
+export type ModalStackParamList = {
+  CreateAppointment: undefined;
+  PersonPicker: undefined;
+  CreatePerson: undefined;
+};
+
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;
 export type SetupNavigationProp = StackNavigationProp<SetupStackParamList>;
 export type BottomNavigationProp = BottomTabNavigationProp<BottomTabParamList>;
+export type ModalNavigationProp = StackNavigationProp<ModalStackParamList>;
