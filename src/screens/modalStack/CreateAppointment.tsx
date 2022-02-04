@@ -11,9 +11,11 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { ReducerTypes } from '../../types/main';
 import { setPickedPerson } from '../../actions/appointment';
+import { useNavigation } from '@react-navigation/native';
+import { ModalNavigationProp } from '../../types/navigation';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import * as RNLocalize from 'react-native-localize';
 import ReminderToggle from '../../components/ReminderToggle';
+import * as RNLocalize from 'react-native-localize';
 
 const CreateAppointment = () => {
   const [title, setTitle] = useState('');
@@ -22,6 +24,8 @@ const CreateAppointment = () => {
   const [date, setDate] = useState<any>(new Date());
   const [endTime, setEndTime] = useState<any>(new Date());
   const [reminderTime, setReminderTime] = useState<any>(undefined);
+
+  const { navigate } = useNavigation<ModalNavigationProp>();
 
   const titleInputRef = useRef<TextInput>(null);
 
@@ -34,8 +38,6 @@ const CreateAppointment = () => {
   const resetPersonPicker = () => {
     dispatch(setPickedPerson(null));
   };
-
-  console.log(reminderTime);
 
   useEffect(() => {
     titleInputRef.current?.focus();
@@ -53,25 +55,13 @@ const CreateAppointment = () => {
         onChangeText={setTitle}
       />
 
-      {!pickedPerson ? (
-        <TouchableOpacity
-          style={{ padding: 16 }}
-          // onPress={() => modalRef.current?.open()}
-        >
-          <Text>Choose Person</Text>
-        </TouchableOpacity>
-      ) : (
-        <View>
-          <Text>{pickedPerson.firstName}</Text>
+      {pickedPerson && <Text>{pickedPerson.firstName}</Text>}
 
-          <TouchableOpacity
-            style={{ padding: 16 }}
-            // onPress={() => modalRef.current?.open()}
-          >
-            <Text>Change</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <TouchableOpacity
+        style={{ padding: 16 }}
+        onPress={() => navigate('PersonPicker')}>
+        <Text>{!pickedPerson ? 'Choose person' : 'Change'}</Text>
+      </TouchableOpacity>
 
       <DateTimePicker
         mode="datetime"
