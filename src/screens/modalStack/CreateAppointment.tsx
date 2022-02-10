@@ -14,7 +14,6 @@ import { setPickedPerson } from '../../actions/appointment';
 import { useNavigation } from '@react-navigation/native';
 import { ModalNavigationProp } from '../../types/navigation';
 import { toggleCreateAppointmentModal } from '../../actions/modal';
-import uuid from 'react-native-uuid';
 import useAppointments from '../../hooks/useAppointments';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ReminderToggle from '../../components/ReminderToggle';
@@ -74,10 +73,9 @@ const CreateAppointment = () => {
 
   const onSubmit = async () => {
     const appointment = {
-      id: uuid.v4().toString(),
       title,
       notes,
-      isAllDay,
+      allDay: isAllDay,
       date,
       endTime,
       reminderTime,

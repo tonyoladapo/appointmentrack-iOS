@@ -30,12 +30,31 @@ export default () => {
     }
   };
 
-  const addAppointment = async (appointment: AppointmentTypes) => {
+  const addAppointment = async (appointment: any) => {
+    try {
+      const { title, date, endTime, allDay, notes, reminderTime } = appointment;
+
+      const id = await RNCalendarEvents.saveEvent(title, {
+        startDate: date.toISOString(),
+        endDate: endTime.toISOString(),
+        allDay,
+        notes,
+        alarms: reminderTime ? [{ date: reminderTime.toISOString() }] : [],
+      });
+
+      await appointmentDocRef.doc(id).set({ ...appointment, id });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editAppointment = async (appointment: AppointmentTypes) => {
     try {
       const { id, title, date, endTime, allDay, notes } = appointment;
-      await appointmentDocRef.doc(id).set({ ...appointment, id });
+      await appointmentDocRef.doc(id).update(appointment);
 
       await RNCalendarEvents.saveEvent(title, {
+        id,
         startDate: date.toISOString(),
         endDate: endTime.toISOString(),
         allDay,
@@ -46,21 +65,18 @@ export default () => {
     }
   };
 
-  const editAppointment = async (appointment: AppointmentTypes) => {
+  const deleteAppointment = async (id: string) => {
     try {
-      await appointmentDocRef.doc(appointment.id).update(appointment);
+      await appointmentDocRef.doc(id).delete();
+      await RNCalendarEvents.removeEvent(id);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteAppointment = async (id: string) => {
-    try {
-      await appointmentDocRef.doc(id).delete();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const scheduleReminder = async (appointment: AppointmentTypes) => {
+
+  // }
 
   return {
     addAppointment,

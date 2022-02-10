@@ -7,7 +7,7 @@ export interface AppointmentTypes {
   notes?: string;
   person: PersonTypes | null;
   remindMe?: boolean;
-  remindMeTime?: Date;
+  reminderTime?: Date;
 }
 
 export interface PersonTypes {
