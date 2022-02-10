@@ -6,6 +6,7 @@ export interface ReducerTypes {
   pref: PrefReducer;
   people: PeopleReducer;
   appointment: AppointmentReducer;
+  modal: ModalReducer;
 }
 
 interface AuthReducer {
@@ -23,4 +24,9 @@ interface PeopleReducer {
 interface AppointmentReducer {
   appointments: AppointmentTypes[];
   pickedPerson: PersonTypes | null;
+}
+
+interface ModalReducer {
+  appointmentModalState: boolean;
+  personModalState: boolean;
 }

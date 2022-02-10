@@ -7,6 +7,7 @@ import authReducer from './reducers/auth';
 import peopleReducer from './reducers/people';
 import prefReducer from './reducers/pref';
 import appointmentReducer from './reducers/appointment';
+import modalReducer from './reducers/modal';
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   pref: prefReducer,
   people: peopleReducer,
   appointment: appointmentReducer,
+  modal: modalReducer,
 });
 
 const persisted_reducers = persistReducer(persistConfig, reducers);
