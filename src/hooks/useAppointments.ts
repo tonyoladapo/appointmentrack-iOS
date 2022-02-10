@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { AppointmentTypes } from '../types/appointment';
 import { setAppointments } from '../actions/appointment';
 import firestoreDocRef from '../firebase/firestoreDocRef';
+import RNCalendarEvents from 'react-native-calendar-events';
 
 export default () => {
   const dispatch = useDispatch();
@@ -31,8 +32,15 @@ export default () => {
 
   const addAppointment = async (appointment: AppointmentTypes) => {
     try {
-      const id = appointment.id;
+      const { id, title, date, endTime, allDay, notes } = appointment;
       await appointmentDocRef.doc(id).set({ ...appointment, id });
+
+      await RNCalendarEvents.saveEvent(title, {
+        startDate: date.toISOString(),
+        endDate: endTime.toISOString(),
+        allDay,
+        notes,
+      });
     } catch (error) {
       console.log(error);
     }

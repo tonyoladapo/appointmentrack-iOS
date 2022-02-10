@@ -7,7 +7,7 @@ import moment from 'moment';
 interface Props {
   deviceLocale: string;
   reminderTime: Date;
-  setReminderTime: (date: Date | undefined) => void;
+  setReminderTime: (date: Date | null) => void;
   appointmentDate: Date;
 }
 
@@ -46,7 +46,7 @@ const ReminderToggle = ({
         break;
 
       default:
-        setReminderTime(undefined);
+        setReminderTime(null);
     }
   };
 
@@ -133,7 +133,7 @@ const ReminderToggle = ({
               value={reminderTime}
               minimumDate={new Date()}
               onChange={(_: Event, date: Date | undefined) =>
-                setReminderTime(date)
+                date ? setReminderTime(date) : setReminderTime(null)
               }
             />
           )}

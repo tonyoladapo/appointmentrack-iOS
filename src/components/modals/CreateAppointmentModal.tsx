@@ -3,11 +3,17 @@ import { Animated, View } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { ReducerTypes } from '../../types/main';
 import ModalStack from '../../navigators/ModalStack';
 
 const AnimateView = Animated.createAnimatedComponent(View);
 
 const CreateAppointmentModal = () => {
+  const { appointmentModalState } = useSelector(
+    ({ modal }: ReducerTypes) => modal,
+  );
+
   const { height } = useWindowDimensions();
   const modalHeight = height * 0.9;
 
@@ -16,8 +22,9 @@ const CreateAppointmentModal = () => {
   const modalRef = React.useRef<Modalize>(null);
 
   useEffect(() => {
-    modalRef.current?.open();
-  }, []);
+    if (appointmentModalState) modalRef.current?.open();
+    else modalRef.current?.close();
+  }, [appointmentModalState]);
 
   return (
     <Modalize

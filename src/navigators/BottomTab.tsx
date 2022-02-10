@@ -3,6 +3,8 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList, RootNavigationProp } from '../types/navigation';
+import { useDispatch } from 'react-redux';
+import { toggleCreateAppointmentModal } from '../actions/modal';
 import Calendar from '../screens/bottomTabs/Calendar';
 import Home from '../screens/bottomTabs/Home';
 import More from '../screens/bottomTabs/More';
@@ -12,6 +14,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTab = () => {
   const { navigate } = useNavigation<RootNavigationProp>();
+  const dispatch = useDispatch();
   return (
     <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
@@ -20,7 +23,10 @@ const BottomTab = () => {
         options={{
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => navigate('CreateAppointmentModal')}
+              onPress={() => {
+                dispatch(toggleCreateAppointmentModal(true));
+                navigate('CreateAppointmentModal');
+              }}
               style={styles.headerBtn}>
               <Text>Create</Text>
             </TouchableOpacity>

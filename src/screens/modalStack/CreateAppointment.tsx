@@ -13,8 +13,13 @@ import { ReducerTypes } from '../../types/main';
 import { setPickedPerson } from '../../actions/appointment';
 import { useNavigation } from '@react-navigation/native';
 import { ModalNavigationProp } from '../../types/navigation';
+import { toggleCreateAppointmentModal } from '../../actions/modal';
+import uuid from 'react-native-uuid';
+import useAppointments from '../../hooks/useAppointments';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ReminderToggle from '../../components/ReminderToggle';
+import RNCalendarEvents from 'react-native-calendar-events';
+import moment from 'moment';
 import * as RNLocalize from 'react-native-localize';
 
 const CreateAppointment = () => {
@@ -23,9 +28,10 @@ const CreateAppointment = () => {
   const [isAllDay, setIsAllDay] = useState(false);
   const [date, setDate] = useState<any>(new Date());
   const [endTime, setEndTime] = useState<any>(new Date());
-  const [reminderTime, setReminderTime] = useState<any>(undefined);
+  const [reminderTime, setReminderTime] = useState<any>(null);
 
   const { navigate } = useNavigation<ModalNavigationProp>();
+  const { addAppointment } = useAppointments();
 
   const titleInputRef = useRef<TextInput>(null);
 
@@ -40,9 +46,49 @@ const CreateAppointment = () => {
   };
 
   useEffect(() => {
+    //TODO: ask permission to sync with calendar
+    calendarPermission();
     titleInputRef.current?.focus();
     return () => resetPersonPicker();
   }, []);
+
+  useEffect(() => {
+    setEndTime(moment(date).add(1, 'hour').toDate());
+  }, [date]);
+
+  const calendarPermission = async () => {
+    try {
+      const permissionStatus = await RNCalendarEvents.checkPermissions();
+
+      if (permissionStatus !== 'authorized') {
+        await RNCalendarEvents.requestPermissions();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const isValidForm = () => {
+    return title.length > 0 && pickedPerson !== null;
+  };
+
+  const onSubmit = async () => {
+    const appointment = {
+      id: uuid.v4().toString(),
+      title,
+      notes,
+      isAllDay,
+      date,
+      endTime,
+      reminderTime,
+      person: pickedPerson,
+    };
+
+    if (!isValidForm()) return; //TODO: show error message
+    addAppointment(appointment);
+
+    dispatch(toggleCreateAppointmentModal(false));
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -105,6 +151,10 @@ const CreateAppointment = () => {
         reminderTime={reminderTime}
         setReminderTime={setReminderTime}
       />
+
+      <TouchableOpacity onPress={onSubmit} style={{ padding: 16 }}>
+        <Text>Save</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
